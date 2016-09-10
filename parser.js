@@ -18,7 +18,7 @@ var cityList = [
 {code:"C", name:"基隆市"},
 {code:"A", name:"臺北市"},
 {code:"F", name:"新北市"},
-{code:"H", name:"桃園縣"},
+{code:"H", name:"桃園市"},
 {code:"O", name:"新竹市"},
 {code:"J", name:"新竹縣"},
 {code:"K", name:"苗栗縣"},
