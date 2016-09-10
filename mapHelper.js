@@ -151,19 +151,27 @@ function extract(taiwanMap){
     // data part
     var name = feature.properties['C_Name'];
 
-    if (name ==="臺北市"){
-      data.push({ppsf:240, st: "Taiwan", ct: name});
-    } else {
-      data.push({ppsf:80, st: "Taiwan", ct: name});
-    }
+    console.log('name:', name);
+    // if (name ==="臺北市"){
+    //   data.push({ppsf:240, st: "Taiwan", ct: name});
+    // } else {
+    //   data.push({ppsf:80, st: "Taiwan", ct: name});
+    // }
 
+    data.push({ppsf:addPrice(name), st: "Taiwan", ct: name});
     glog("end city/features");
   }
 
   return {curves:curves, actions:actions, data:data};
 }
 
-function addPrice(taiwanMap){
+function addPrice(name){
+  var len = housePrice.length;
+  for (var i=0; i< len; i++){
+    if (name === housePrice[i].name){
+      return housePrice[i].price/500;
+    }
+  }
 
-  return {};
+  return 0;
 }

@@ -4,6 +4,8 @@
   "description": "",
   "main": "TrackballControls.js",
   "dependencies": {
+    "comma-separated-values": "^3.6.4",
+    "iconv-lite": "^0.4.13",
     "live-server": "^1.1.0"
   },
   "devDependencies": {},

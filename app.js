@@ -111,7 +111,7 @@ $(document).ready(function() {
     var mouse = new THREE.Vector2(),
         INTERSECTED;
 
-    d3.json("data/taiwan2.json", function(error, saved) {
+    d3.json("data/taiwanMap.json", function(error, saved) {
 
         glog("try to normalize:", saved);
         saved = extract(saved);
@@ -596,13 +596,15 @@ $(document).ready(function() {
 function showPopover(st, ct, ppsf) {
 
     $(".popover-title").text(ct + ", " + st);
-    $(".ppsqft").html("Avg price: <strong>$" + Math.round(ppsf) + "</strong>");
+    $(".ppsqft").html("Avg price: <strong>$" + Math.round(ppsf*500) + "</strong>");
 }
 
 function hidePopover(st, ct, ppsf) {
 
     $(".popover-title").text("Taiwan");
-    $(".ppsqft").html("Avg price: <strong>$∞</strong>");
+    // $(".ppsqft").html("Avg price: <strong>$∞</strong>");
+    $(".ppsqft").html("");
+
 }
 
 function resizetext() {
