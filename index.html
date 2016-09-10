@@ -211,7 +211,6 @@
         }
     </style>
 
-
     <meta property="og:url" content="http://metrocosm.com/3d-map-us-real-estate/" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Mapping America's Hottest Housing Markets" />
@@ -219,14 +218,12 @@
     <meta property="og:image" content="http://metrocosm.com/wp-content/uploads/2016/09/us-housing.png" />
     <meta name="description" content="This 3D map shows the cost of housing by U.S. county. The height of each county represents the average price per square foot of its homes." />
 
-
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Mapping America's Hottest Housing Markets" />
     <meta name="twitter:description" content="This 3D map shows the cost of housing by U.S. county. The height of each county represents the average price per square foot of its homes." />
     <meta name="twitter:site" content="@galka_max" />
     <meta name="twitter:image" content="http://metrocosm.com/wp-content/uploads/2016/09/us-housing.png" />
     <meta name="twitter:creator" content="@galka_max" />
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -256,9 +253,6 @@
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1673005169651763&ev=PageView&noscript=1" /></noscript>
     <!-- End Facebook Pixel Code -->
-
-
-
 
 </head>
 
@@ -294,8 +288,6 @@
         <a class="fa fa-twitter fafa" href="https://twitter.com/share?text=Mapping+America&#39;s+Hottest+Housing+Markets&url=http://metrocosm.com/us-housing-markets-map.html" target="_blank" title="Share on Twitter"></a>
     </div>
 
-
-
     <script>
         resizetext();
 
@@ -309,9 +301,7 @@
 
         var floatingDiv;
 
-
         $(document).ready(function() {
-
 
             function cscale(t) {
 
@@ -320,10 +310,7 @@
                     .range([1, 0.87, 0.75, 0.62, 0.50, 0.37, 0.25, 0.12, 0.10]);
 
                 return d3.interpolateInferno(jenkscolor(t));
-
             }
-
-
 
             function escale(t) {
 
@@ -336,23 +323,16 @@
                     .range(["black", cscale(t)]);
 
                 return finalscale(emscale(t));
-
             }
-
 
             var scene = new THREE.Scene();
 
             var camera = new THREE.PerspectiveCamera(20, width / height, 0.1, 1100);
-
             camera.position.set(0, -200, 400);
-
-
-
             var controls = new THREE.TrackballControls(camera);
 
             controls.minDistance = 30;
             controls.maxDistance = 1000;
-
             controls.rotateSpeed = 1;
 
             var renderer = new THREE.WebGLRenderer({
@@ -361,8 +341,6 @@
             renderer.setSize(width, height);
 
             document.querySelector("#cv").appendChild(renderer.domElement);
-
-
 
             var plane = new THREE.Mesh(
                 new THREE.PlaneGeometry(sceneWidth, 130, 10, 10),
@@ -377,11 +355,6 @@
             );
             scene.add(plane);
 
-
-
-
-
-
             var line_material = new THREE.LineBasicMaterial({
                     color: 0x404040
                 }),
@@ -395,18 +368,14 @@
                 geometry.vertices.push(new THREE.Vector3(100, floor, i * step - 100));
             }
 
-
             for (var i = 0; i <= 40; i++) {
                 geometry.vertices.push(new THREE.Vector3(i * step - 100, floor, -65));
                 geometry.vertices.push(new THREE.Vector3(i * step - 100, floor, 65));
             }
 
-
             var line = new THREE.LineSegments(geometry, line_material);
             line.rotation.x = Math.PI / 2;
             scene.add(line);
-
-
 
             var pointLight = new THREE.PointLight(0xFFFFFF, 2);
             pointLight.position.x = -300;
@@ -425,18 +394,21 @@
             controls.update();
             renderer.render(scene, camera);
 
-
             var raycaster = new THREE.Raycaster();
             var mouse = new THREE.Vector2(),
                 INTERSECTED;
 
+            d3.json("data/taiwan2.json", function(error, saved) {
 
+                console.log("try to normalize:", saved);
+                saved = extract(saved);
+                console.log("new saved:", saved);
 
-         d3.json("usa-ppsqft.json", function(error, saved) {
-
+            // d3.json("usa-ppsqft.json", function(error, saved) {
 
                 var temparr = [];
 
+                // 單一地區, 共16xx個
                 for (var i = 0; i < saved.actions.length; i++) {
                     var ppsf = (saved.data[i].ppsf / 1401);
                     var material = new THREE.MeshLambertMaterial({
@@ -451,6 +423,7 @@
                     //material.color = new THREE.Color(cscale(saved.data[i].ppsf));
                     var shparr = [];
 
+                    // 通常 ii只有一個(一個zone通常是只有一個block, 沒有離島之類的), ii=0, cruves[i][0] = array of (x,y)
                     for (var ii = 0; ii < saved.actions[i].length; ii++) {
                         var actions = saved.actions[i][ii];
                         var curves = saved.curves[i][ii];
@@ -481,15 +454,7 @@
 
                 requestAnimationFrame(animate);
 
-
-
-
                 onWindowResize();
-
-
-
-
-
             });
 
             var fontsizeg = 40;
@@ -829,8 +794,6 @@
                     var setval = true
                 }
 
-
-
                 var labelarr = scene.children.slice().splice(4, 9);
 
                 for (var k = 0; k < labelarr.length; k++) {
@@ -838,10 +801,6 @@
                 }
 
             }
-
-
-
-
 
             window.addEventListener('resize', onWindowResize, false);
 
@@ -857,11 +816,6 @@
                 resizetext();
             }
 
-
-
-
-
-
             document.addEventListener('mousemove', onDocumentMouseMove, false);
 
             function onDocumentMouseMove(event) {
@@ -870,18 +824,11 @@
 
                 mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                 mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
             }
-
 
             raycaster.setFromCamera(mouse, camera);
 
-
-
-
-
             function animate(time) {
-
                 controls.update();
                 renderer.render(scene, camera);
 
@@ -893,13 +840,9 @@
 
                 var intersects = raycaster.intersectObjects(cloneArray);
 
-
-
                 if (intersects.length > 0 && mob == 0) {
 
-
                     if (intersects[0].object.ct == "Barbour" || intersects[0].object.ct == "Aleutians East") {
-
 
                         if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
@@ -907,38 +850,21 @@
 
                     } else {
 
-
-
                         if (INTERSECTED != intersects[0].object) {
 
                             if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
-
-
-
-
-
 
                             INTERSECTED = intersects[0].object;
                             INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
                             INTERSECTED.material.emissive.setHex(0x00bb00);
 
-
-
-
                         }
-
-
                     }
-
                 } else {
-
                     if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
                     INTERSECTED = null;
-
                 }
-
-
 
                 hidePopover();
 
@@ -949,13 +875,8 @@
                 }
 
                 requestAnimationFrame(animate);
-
             }
-
-
         });
-
-
 
         function showPopover(st, ct, ppsf) {
 
@@ -963,14 +884,11 @@
             $(".ppsqft").html("Avg price per sqft: <strong>$" + Math.round(ppsf) + "</strong>");
         }
 
-
         function hidePopover(st, ct, ppsf) {
 
             $(".popover-title").text("United States");
             $(".ppsqft").html("Avg price per sqft: <strong>$132</strong>");
         }
-
-
 
         function resizetext() {
 
@@ -993,10 +911,6 @@
                 $(".fafa").css("border-radius", "30px").css("height", "30px").css("line-height", "30px").css("width", "30px").css("font-size", "20px");
 
             }
-
-
-
-
             if (wiw < 670) {
                 $(".popover").css("display", "none");
                 mob = 1;
@@ -1004,7 +918,6 @@
                 $(".close").css("font-size", "12pt");
                 $(".floating").css("font-size", "10pt");
             }
-
             if (wiw > 670) {
                 $(".popover").css("display", "initial");
                 mob = 0;
@@ -1012,10 +925,7 @@
                 $(".close").css("font-size", "15pt");
                 $(".floating").css("font-size", "12pt");
             }
-
         }
-
-
 
         function about() {
             document.querySelector("#floating").style.display = 'block';
@@ -1026,6 +936,7 @@
         }
     </script>
 
+    <script src="helper.js"></script>
 
     <!-- <script src="//d3js.org/d3.v4.js"></script> -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -1035,7 +946,6 @@
 
     <!-- <script src="//metrocosm.com/threed3no/TrackballControls.js"></script> -->
     <script src="TrackballControls.js"></script>
-
 
 </body>
 
