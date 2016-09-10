@@ -1,5 +1,9 @@
 // todo: move the calculation to server side later
 
+function glog(log){
+  // glog(log);
+}
+
 function normalize(x, y) {
   // step1: normalize
   // original:
@@ -33,18 +37,18 @@ function judgeIfMultipleArray(zone, curveListPerCity, actionListPerCity){
   var object = zone[0][0];
 
   if (object.constructor === Array){
-    console.log("multiple array");
+    glog("multiple array");
 
     var numberOfSubZones = zone.length;
 
-    console.log("subzone in this zone:", numberOfSubZones);
+    glog("subzone in this zone:", numberOfSubZones);
     for (var i=0; i< numberOfSubZones; i++) {
       var subZone = zone[i];
       getCurveAndAction(subZone, curveListPerCity, actionListPerCity);
     }
 
   } else {
-    console.log("not array");
+    glog("not array");
     getCurveAndAction(zone, curveListPerCity, actionListPerCity);
   }
 }
@@ -56,17 +60,17 @@ function getCurveAndAction(zone, curveListPerCity, actionListPerCity){
 
   var numberOfPoint = zone.length;
 
-  console.log("points in this zone:", numberOfPoint);
+  glog("points in this zone:", numberOfPoint);
   for (var i=0; i< numberOfPoint; i++) {
 
     // 如果zone[i]是 number ok 如果是[]則是多層的
-    console.log("x:",zone[i][0], ";y:",zone[i][1] );
+    glog("x:",zone[i][0], ";y:",zone[i][1] );
     var coordiante = normalize(zone[i][0], zone[i][1]);
 
     if (i==0){
       actionList.push({action:"moveTo", args:[coordiante.x, coordiante.y]});
 
-      console.log("move to ");
+      glog("move to ");
     } else {
 
       var preCoordiante = normalize(zone[i-1][0], zone[i-1][1]);
@@ -77,7 +81,7 @@ function getCurveAndAction(zone, curveListPerCity, actionListPerCity){
 
       actionList.push({action:"lineTo", args:[coordiante.x, coordiante.y]});
 
-      console.log("line to");
+      glog("line to");
     }
 
     // final one
@@ -91,12 +95,12 @@ function getCurveAndAction(zone, curveListPerCity, actionListPerCity){
 
       actionList.push({action:"lineTo", args:[zeroCoordiante.x, zeroCoordiante.y]});
 
-      console.log("final");
+      glog("final");
     }
   }
 
-  console.log("curveList:", curveList.length);
-  console.log("actionList:", actionList.length);
+  glog("curveList:", curveList.length);
+  glog("actionList:", actionList.length);
 
   curveListPerCity.push(curveList);
   actionListPerCity.push(actionList);
@@ -115,11 +119,11 @@ function extract(taiwanMap){
   var features = taiwanMap.features;
   var featuresLen = features.length;
 
-  console.log("total features/city:", featuresLen);
+  glog("total features/city:", featuresLen);
 
   for (var i = 0; i< featuresLen; i++){
 
-    console.log("new city/features");
+    glog("new city/features");
 
     // geometry part
     var curveListPerCity = [];
@@ -138,7 +142,7 @@ function extract(taiwanMap){
       // 所以  zone -  zone1 - sub1
       //      zone -  zone1 - sub2
       // 變成  zone - sub1
-      //      zone - sub2  
+      //      zone - sub2
     }
 
     curves.push(curveListPerCity);
@@ -146,10 +150,14 @@ function extract(taiwanMap){
 
     // data part
     var name = feature.properties['C_Name'];
-    data.push({ppsf:80, st: "Taiwan", ct: name});
 
-    console.log("end city/features");
+    if (name ==="臺北市"){
+      data.push({ppsf:240, st: "Taiwan", ct: name});
+    } else {
+      data.push({ppsf:80, st: "Taiwan", ct: name});
+    }
 
+    glog("end city/features");
   }
 
   return {curves:curves, actions:actions, data:data};

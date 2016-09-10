@@ -10,6 +10,10 @@ var height = window.innerHeight;
 
 var floatingDiv;
 
+function glog(log){
+  // console.log(log);
+}
+
 $(document).ready(function() {
 
     function cscale(t) {
@@ -109,9 +113,9 @@ $(document).ready(function() {
 
     d3.json("data/taiwan2.json", function(error, saved) {
 
-        console.log("try to normalize:", saved);
+        glog("try to normalize:", saved);
         saved = extract(saved);
-        console.log("new saved:", saved);
+        glog("new saved:", saved);
 
     // d3.json("usa-ppsqft.json", function(error, saved) {
 
@@ -493,7 +497,7 @@ $(document).ready(function() {
 
     spritey2 = null;
 
-    d3.select("#labels").on("click", labelchg);
+    // d3.select("#labels").on("click", labelchg);
     labelchg();
 
     function labelchg() {
