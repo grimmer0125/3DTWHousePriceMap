@@ -151,7 +151,7 @@ function extract(taiwanMap){
     // data part
     var name = feature.properties['C_Name'];
 
-    console.log('name:', name);
+    // console.log('name:', name);
     // if (name ==="臺北市"){
     //   data.push({ppsf:240, st: "Taiwan", ct: name});
     // } else {

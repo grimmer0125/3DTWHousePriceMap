@@ -111,14 +111,6 @@ $(document).ready(function() {
     var mouse = new THREE.Vector2(),
         INTERSECTED;
 
-    if (INTERSECTED !== null) {
-        console.log("INTERSECTED != null initially");
-    } else {
-        console.log("INTERSECTED = null initially");
-
-    }
-
-
     d3.json("data/taiwanMap.json", function(error, saved) {
 
         glog("try to normalize:", saved);
