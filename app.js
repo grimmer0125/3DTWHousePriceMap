@@ -111,6 +111,14 @@ $(document).ready(function() {
     var mouse = new THREE.Vector2(),
         INTERSECTED;
 
+    if (INTERSECTED !== null) {
+        console.log("INTERSECTED != null initially");
+    } else {
+        console.log("INTERSECTED = null initially");
+
+    }
+
+
     d3.json("data/taiwanMap.json", function(error, saved) {
 
         glog("try to normalize:", saved);
@@ -535,56 +543,22 @@ $(document).ready(function() {
 
     document.addEventListener('touchmove', touchPositionHandler, false)
 
-    // document.addEventListener('touchstart', positionHandler2, false);
-
-
-    // document.addEventListener('click', someFunction, false);
-
-    // function someFunction(event) {
-    //
-    //   console.log('get click event:', event);
-    //
-    //   console.log('get click event2:', event.clientX);
-        // event.preventDefault();
-        //
-        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    // }
-
-    // function positionHandler2(event) {
-    //
-    //   console.log('get touch start event:',event);
-    //
-    //   console.log('get touch start event2:', event.clientX);
-        // event.preventDefault();
-        //
-        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    // }
-
     function touchPositionHandler(event) {
-
-      // console.log('get touch move event1:', event);
 
         event.preventDefault();
 
-        // console.log('get touch move event:', event.clientX);
+        // console.log('get whole touch move event:', event);
+
         posX = event.targetTouches[0].clientX;
         posY = event.targetTouches[0].clientY;
 
         mouse.x = (posX / window.innerWidth) * 2 - 1;
         mouse.y = -(posY / window.innerHeight) * 2 + 1;
-
-        // event.preventDefault();
-        //
-        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
 
     function onDocumentMouseMove(event) {
 
-      // console.log('get mouse move event,', event);
         event.preventDefault();
 
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -605,7 +579,7 @@ $(document).ready(function() {
 
         var intersects = raycaster.intersectObjects(cloneArray);
 
-        if (intersects.length > 0 && mob == 0) {
+        if (intersects.length > 0) { // && mob == 0) {
 
             if (intersects[0].object.ct == "Barbour" || intersects[0].object.ct == "Aleutians East") {
 
@@ -626,6 +600,7 @@ $(document).ready(function() {
                 }
             }
         } else {
+
             if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
             INTERSECTED = null;
@@ -634,9 +609,9 @@ $(document).ready(function() {
         hidePopover();
 
         if (INTERSECTED !== null) {
-            if (mob == 0) {
+            // if (mob == 0) {
                 showPopover(INTERSECTED.st, INTERSECTED.ct, INTERSECTED.ppsf);
-            }
+            // }
         }
 
         requestAnimationFrame(animate);
@@ -682,7 +657,7 @@ function resizetext() {
 
     }
     if (wiw < 670) {
-        $(".popover").css("display", "none");
+        // $(".popover").css("display", "none");
         mob = 1;
         $(".fafa").css("border-radius", "30px").css("height", "30px").css("line-height", "30px").css("width", "30px").css("font-size", "20px");
         $(".close").css("font-size", "12pt");
