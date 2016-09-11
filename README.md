@@ -1,3 +1,5 @@
+Can chat at [![Gitter](https://badges.gitter.im/twHousePriceMap/Lobby.svg)](https://gitter.im/twHousePriceMap/Lobby)
+
 # map
 
 ## possible todo list 
