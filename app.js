@@ -533,8 +533,50 @@ $(document).ready(function() {
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
 
+    document.addEventListener('touchmove', positionHandler, false)
+
+    document.addEventListener('touchstart', positionHandler2, false);
+
+
+    document.addEventListener('click', someFunction, false);
+
+    function someFunction(event) {
+
+      console.log('get click event:', event);
+
+      console.log('get click event2:', event.clientX);
+        // event.preventDefault();
+        //
+        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    function positionHandler2(event) {
+
+      console.log('get touch start event:',event);
+
+      console.log('get touch start event2:', event.clientX);
+        // event.preventDefault();
+        //
+        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+    function positionHandler(event) {
+
+      console.log('get touch move event1:', event);
+
+      console.log('get touch move event:', event.clientX);
+        // event.preventDefault();
+        //
+        // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+
     function onDocumentMouseMove(event) {
 
+      console.log('get mouse move event,', event);
         event.preventDefault();
 
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
