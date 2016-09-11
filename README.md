@@ -3,7 +3,7 @@
 ## possible todo list 
 1. automatically fetch data from [data.gov.tw/node/7442](data.gov.tw/node/7442)
     - either fetch on server side, every half month
-    - or fetch on browser, save on localstorage, and will expire after half month. This way will keep this app as a pure Front-End app with special backend-server. 可以練習簡單的發http request. 
+    - or fetch on browser, save on localstorage (像cookie一樣的東西), and will expire after half month. This way will keep this app as a pure Front-End app with special backend-server. 可以練習簡單的發http request. 
 2. Search function, e.g. type address to get the price
 3. dropdown menu to choose different type of data, such as 車位/土地
 4. UI improvement. 
