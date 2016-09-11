@@ -595,8 +595,11 @@ $(document).ready(function() {
 
 function showPopover(st, ct, ppsf) {
 
+    var finalNum = (Math.round(ppsf*500)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+      ",");
+
     $(".popover-title").text(ct + ", " + st);
-    $(".ppsqft").html("Avg price: <strong>$" + Math.round(ppsf*500) + "</strong>");
+    $(".ppsqft").html("Avg price: <strong>$" + finalNum + "</strong>");
 }
 
 function hidePopover(st, ct, ppsf) {
