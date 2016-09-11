@@ -569,8 +569,8 @@ $(document).ready(function() {
         event.preventDefault();
 
         // console.log('get touch move event:', event.clientX);
-        posX = e.targetTouches[0].clientX;
-        posY = e.targetTouches[0].clientY;
+        posX = event.targetTouches[0].clientX;
+        posY = event.targetTouches[0].clientY;
 
         mouse.x = (posX / window.innerWidth) * 2 - 1;
         mouse.y = -(posY / window.innerHeight) * 2 + 1;
