@@ -533,40 +533,48 @@ $(document).ready(function() {
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-    document.addEventListener('touchmove', positionHandler, false)
+    document.addEventListener('touchmove', touchPositionHandler, false)
 
-    document.addEventListener('touchstart', positionHandler2, false);
+    // document.addEventListener('touchstart', positionHandler2, false);
 
 
-    document.addEventListener('click', someFunction, false);
+    // document.addEventListener('click', someFunction, false);
 
-    function someFunction(event) {
-
-      console.log('get click event:', event);
-
-      console.log('get click event2:', event.clientX);
+    // function someFunction(event) {
+    //
+    //   console.log('get click event:', event);
+    //
+    //   console.log('get click event2:', event.clientX);
         // event.preventDefault();
         //
         // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    }
+    // }
 
-    function positionHandler2(event) {
-
-      console.log('get touch start event:',event);
-
-      console.log('get touch start event2:', event.clientX);
+    // function positionHandler2(event) {
+    //
+    //   console.log('get touch start event:',event);
+    //
+    //   console.log('get touch start event2:', event.clientX);
         // event.preventDefault();
         //
         // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-    }
+    // }
 
-    function positionHandler(event) {
+    function touchPositionHandler(event) {
 
-      console.log('get touch move event1:', event);
+      // console.log('get touch move event1:', event);
 
-      console.log('get touch move event:', event.clientX);
+        event.preventDefault();
+
+        // console.log('get touch move event:', event.clientX);
+        posX = e.targetTouches[0].clientX;
+        posY = e.targetTouches[0].clientY;
+
+        mouse.x = (posX / window.innerWidth) * 2 - 1;
+        mouse.y = -(posY / window.innerHeight) * 2 + 1;
+
         // event.preventDefault();
         //
         // mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -576,7 +584,7 @@ $(document).ready(function() {
 
     function onDocumentMouseMove(event) {
 
-      console.log('get mouse move event,', event);
+      // console.log('get mouse move event,', event);
         event.preventDefault();
 
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
