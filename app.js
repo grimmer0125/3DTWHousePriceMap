@@ -604,7 +604,7 @@ function showPopover(st, ct, ppsf) {
 
 function hidePopover(st, ct, ppsf) {
 
-    $(".popover-title").text("Taiwan 105年7月1日至 105年7月15日 各縣市平均房價(不動產買賣+預售屋買賣)");
+    $(".popover-title").text("台灣 105年7月1日至 105年7月15日 各縣市平均房價(不動產買賣+預售屋買賣)");
     // $(".ppsqft").html("Avg price: <strong>$∞</strong>");
     $(".ppsqft").html("");
 
