@@ -503,10 +503,10 @@ $(document).ready(function() {
     function labelchg() {
 
         var setval = false;
-        var l = document.getElementById("labels");
-        if (l.checked == true) {
-            var setval = true
-        }
+        // var l = document.getElementById("labels");
+        // if (l.checked == true) {
+        //     var setval = true
+        // }
 
         var labelarr = scene.children.slice().splice(4, 9);
 
@@ -601,7 +601,7 @@ function showPopover(st, ct, ppsf) {
 
 function hidePopover(st, ct, ppsf) {
 
-    $(".popover-title").text("Taiwan");
+    $(".popover-title").text("Taiwan 105年7月1日至 105年7月15日 各縣市平均房價(不動產買賣+預售屋買賣)");
     // $(".ppsqft").html("Avg price: <strong>$∞</strong>");
     $(".ppsqft").html("");
 
