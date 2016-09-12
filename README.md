@@ -12,7 +12,7 @@ Can chat at [![Gitter](https://badges.gitter.im/twHousePriceMap/Lobby.svg)](http
 5. mobile UI/RWD/App version/.
 6. Show the price of the smaller zone. Such 大安區. 
 7. More statistical data/graph. Such as historical data for the past year.  [http://data.gov.tw/node/18703](http://data.gov.tw/node/18703) or [http://plvr.land.moi.gov.tw/DownloadOpenData](http://plvr.land.moi.gov.tw/DownloadOpenData). Keep in mind, these are Big5 encoding. 
-8. improve CPU too high issue.
+8. ~~improve CPU too high issue.~~
 
 ## steps to install
 1. (optinal) Install NPM if you do not have, follow the the web. [https://nodejs.org/en/](https://nodejs.org/en/)
