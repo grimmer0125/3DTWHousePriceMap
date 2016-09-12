@@ -606,7 +606,12 @@ $(document).ready(function() {
             // }
         }
 
-        requestAnimationFrame(animate);
+        setTimeout( function() {
+
+            requestAnimationFrame( animate );
+
+        }, 1000 / 45 );
+        // requestAnimationFrame(animate);
     }
 });
 
