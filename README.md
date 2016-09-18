@@ -19,4 +19,4 @@ Can chat at [![Gitter](https://badges.gitter.im/twHousePriceMap/Lobby.svg)](http
 2. in the root folder of this project, type `npm install`
 
 ## How to run 
-1. in the root folder of this project, type `npm start`. It uses [live-server](https://github.com/tapio/live-server) to supports AJAX from the web app downloaded from the local server and page reload automatically. 
+1. in the root folder of this project, type `npm start`. It uses [live-server](https://github.com/tapio/live-server) to supports AJAX from the web app downloaded from the local server and page reload automatically. 若要測mobile實機時請用 https://github.com/indexzero/http-server, 因為live-server不support讓別人連進來
