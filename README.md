@@ -3,7 +3,7 @@ Can chat at [![Gitter](https://badges.gitter.im/twHousePriceMap/Lobby.svg)](http
 # map
 
 ## possible todo list 
-1. automatically fetch data from [data.gov.tw/node/7442](data.gov.tw/node/7442)
+1. automatically fetch data from [http://data.gov.tw/node/7442](http://data.gov.tw/node/7442),處理過程可參考https://github.com/bing-Guo/taiwan-map-d3
     - either fetch on server side, every half month
     - or fetch on browser, save on localstorage (像cookie一樣的東西), and will expire after half month. This way will keep this app as a pure Front-End app with special backend-server. 可以練習簡單的發http request. 
 2. Search function, e.g. type address to get the price
