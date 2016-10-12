@@ -1,6 +1,8 @@
 Can chat at [![Gitter](https://badges.gitter.im/twHousePriceMap/Lobby.svg)](https://gitter.im/twHousePriceMap/Lobby)
 
-# map
+# 3DTWHousePriceMap
+
+There is a brother project, react native version: https://github.com/grimmer0125/TWHousePriceReactNative
 
 ## possible todo list 
 1. automatically fetch houe price data from [http://data.gov.tw/node/6213](http://data.gov.tw/node/6213)
