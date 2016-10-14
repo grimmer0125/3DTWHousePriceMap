@@ -48,9 +48,9 @@ function checkAverage(code, average){
   console.log("check avg:", NumOfCity);
   for (var i=0; i< NumOfCity; i++){
     console.log("city i:", i);
-    console.log("list:", cityList);
-    var city = cityList[i]; //!!!!! 每次都一樣???
-    console.log("city.code:"+ city.code+";code:", code);
+    // console.log("list:", cityList);
+    var city = cityList[i]; //!!!!! 用const 每次都一樣???
+    // console.log("city.code:"+ city.code+";code:", code);
     if(city.code === code){
       console.log("find out");
       city.price = average;
@@ -108,10 +108,10 @@ function priceFileParser(code){
 
   this.startReadAsync = function(readAyncFun){
 
-    console.log("startReadAsync1");
+    // console.log("startReadAsyncA");
 
     readAyncFun(code,"A", (result)=>{
-      console.log("A:");
+      // console.log("A:");
       console.log("read file A ok, str.len:", result.length);
       if(result.length>0){
         this.resultA =  this.getTotal(result); //maybe {total:0, number:0};
@@ -125,11 +125,11 @@ function priceFileParser(code){
         console.log("calc A-B");
         this.calculateAverage();
       } else {
-        console.log("A ok but B not ok");
+        // console.log("A ok but B not ok");
       }
     });
 
-    console.log("startReadAsync2");
+    // console.log("startReadAsyncB");
 
     readAyncFun(code, "B", (result)=>{
       // console.log("B:", result);
@@ -145,7 +145,7 @@ function priceFileParser(code){
         console.log("calc B-A");
         this.calculateAverage();
       } else {
-        console.log("B ok but A not ok");
+        // console.log("B ok but A not ok");
       }
     });
   }

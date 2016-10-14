@@ -56,7 +56,7 @@ function downloadAndParse(dataCallback) {
                     // newData.splice(0, 0, title);
                     // storage.save(newData);
 
-                    dataCallback(newData);
+                    dataCallback(newData, cityData);
                 });
             });
 
@@ -117,7 +117,7 @@ function readEachCSVFile(code, houseType, finishReadFun) {
 
     console.log('try to read:', readfilepath);
 
-    console.log("iterating over", readfilepath);
+    // console.log("iterating over", readfilepath);
 
     zip.file(readfilepath).async("uint8array").then(function(text) {
         // console.log("unzip:", text);
