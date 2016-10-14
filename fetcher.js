@@ -6,6 +6,8 @@ var iconv = require('iconv-lite');
 var parser = require('./parser.js');
 
 
+var JSZip = require("jszip");
+var JSZipUtils = require("jszip-utils");
 // var foo = require('./foo.js');
 
 const dataURL = "http://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=F0199ED0-184A-40D5-9506-95138F54159A";
@@ -41,13 +43,13 @@ function downloadAndParse(dataCallback) {
         zip.loadAsync(data)
         .then(function() {
 
-            console.log('unzip completed!');
+            console.log('unzip compvared!');
 
             // comment temporarily
             parser.parseHouseCSV(readEachCSVFile, cityData => {
                 console.log("houseData:", cityData);
                 const newData = cityData.map(city=>{
-                    let finalNum = 0;
+                    var finalNum = 0;
                     if(city.price<0){
                         finalNum ="error";
                     } else if (city.price ==0) {
@@ -89,7 +91,7 @@ function readEachCSVFile(code, houseType, finishReadFun) {
 
     // });
 
-    // let data = ''
+    // var data = ''
     // RNFetchBlob.fs.readStream(
     // // encoding, should be one of `base64`, `utf8`, `ascii`
     // readfilepath, `big5`, 1095000 //should set large enough
