@@ -1,3 +1,5 @@
+var mapHelper = require("./mapHelper.js");
+
 resizetext();
 
 var mob = 0;
@@ -11,7 +13,7 @@ var height = window.innerHeight;
 var floatingDiv;
 
 function glog(log){
-  // console.log(log);
+  console.log(log);
 }
 
 $(document).ready(function() {
@@ -111,63 +113,63 @@ $(document).ready(function() {
     var mouse = new THREE.Vector2(),
         INTERSECTED;
 
-    d3.json("data/taiwanMap.json", function(error, saved) {
+    d3.json("data/taiwanMap.json", function(error, data) {
 
-        glog("try to normalize:", saved);
-        saved = extract(saved);
-        glog("new saved:", saved);
+        glog("try to normalize:", data);
+        mapHelper.extract(data, function(error, saved){
 
-    // d3.json("usa-ppsqft.json", function(error, saved) {
+            glog("new saved:", saved);
 
-        var temparr = [];
+            // d3.json("usa-ppsqft.json", function(error, saved) {
 
-        // 單一地區, 共16xx個
-        for (var i = 0; i < saved.actions.length; i++) {
-            var ppsf = (saved.data[i].ppsf / 1401);
-            var material = new THREE.MeshLambertMaterial({
-                opacity: 1,
-                transparent: true,
-                color: cscale(saved.data[i].ppsf),
-                emissive: escale(saved.data[i].ppsf),
-                side: THREE.DoubleSide
-            });
+            var temparr = [];
+
+            // 單一地區, 共16xx個
+            for (var i = 0; i < saved.actions.length; i++) {
+                var ppsf = (saved.data[i].ppsf / 1401);
+                var material = new THREE.MeshLambertMaterial({
+                    opacity: 1,
+                    transparent: true,
+                    color: cscale(saved.data[i].ppsf),
+                    emissive: escale(saved.data[i].ppsf),
+                    side: THREE.DoubleSide
+                });
 
 
-            //material.color = new THREE.Color(cscale(saved.data[i].ppsf));
-            var shparr = [];
+                //material.color = new THREE.Color(cscale(saved.data[i].ppsf));
+                var shparr = [];
 
-            // 通常 ii只有一個(一個zone通常是只有一個block, 沒有離島之類的), ii=0, cruves[i][0] = array of (x,y)
-            for (var ii = 0; ii < saved.actions[i].length; ii++) {
-                var actions = saved.actions[i][ii];
-                var curves = saved.curves[i][ii];
-                var shp = new THREE.Shape();
-                shp.actions = actions;
-                shp.curves = curves;
-                shparr.push(shp)
+                // 通常 ii只有一個(一個zone通常是只有一個block, 沒有離島之類的), ii=0, cruves[i][0] = array of (x,y)
+                for (var ii = 0; ii < saved.actions[i].length; ii++) {
+                    var actions = saved.actions[i][ii];
+                    var curves = saved.curves[i][ii];
+                    var shp = new THREE.Shape();
+                    shp.actions = actions;
+                    shp.curves = curves;
+                    shparr.push(shp)
+                }
+
+                var shapeg1 = new THREE.ExtrudeGeometry(shparr, {
+                    amount: (20 + ppsf * 3000) * valueFactor,
+                    bevelEnabled: false
+                });
+
+                var shapeg1z = new THREE.BufferGeometry().fromGeometry(shapeg1);
+                var shapeg2c = new THREE.Mesh(shapeg1z, material);
+
+                shapeg2c.st = saved.data[i].st;
+                shapeg2c.ct = saved.data[i].ct;
+                shapeg2c.ppsf = saved.data[i].ppsf;
+
+                scene.add(shapeg2c);
             }
 
-            shapeg1 = new THREE.ExtrudeGeometry(shparr, {
-                amount: (20 + ppsf * 3000) * valueFactor,
-                bevelEnabled: false
-            });
+            saved = null;
 
-            var shapeg1z = new THREE.BufferGeometry().fromGeometry(shapeg1);
-            var shapeg2c = new THREE.Mesh(shapeg1z, material);
+            requestAnimationFrame(animate);
 
-
-            shapeg2c.st = saved.data[i].st;
-            shapeg2c.ct = saved.data[i].ct;
-            shapeg2c.ppsf = saved.data[i].ppsf;
-
-
-            scene.add(shapeg2c);
-        }
-
-        saved = null;
-
-        requestAnimationFrame(animate);
-
-        onWindowResize();
+            onWindowResize();
+        });
     });
 
     // begin: labels part

@@ -1,5 +1,7 @@
 // todo: move the calculation to server side later
 
+var fetcher = require("./fetcher.js")
+
 function glog(log){
   // glog(log);
 }
@@ -109,67 +111,82 @@ function getCurveAndAction(zone, curveListPerCity, actionListPerCity){
   // return {curveList: curveList, actionList: actionList};
 }
 
-function extract(taiwanMap){
+exports.extract = function(taiwanMap, callback){
 
-  var newMap = {};
-  var curves = [];
-  var actions = [];
-  var data = [];
+  //try to get the current data first
+  //loadORDownload
+  fetcher.loadORDownload(function(housePrice){
 
-  var features = taiwanMap.features;
-  var featuresLen = features.length;
+    console.log("fetch result:", housePrice);
 
-  glog("total features/city:", featuresLen);
-
-  for (var i = 0; i< featuresLen; i++){
-
-    glog("new city/features");
-
-    // geometry part
-    var curveListPerCity = [];
-    var actionListPerCity =[];
-
-    var feature = features[i];
-    var zones = feature.geometry.coordinates; // 因為一個縣市可能有兩個以上不相鄰的地區
-
-    var zoneLen = zones.length;
-
-    for (var j =0; j< zoneLen; j++){
-
-      // should be a polygon
-      var zone = zones[j];
-      judgeIfMultipleArray(zone, curveListPerCity, actionListPerCity);
-      // 所以  zone -  zone1 - sub1
-      //      zone -  zone1 - sub2
-      // 變成  zone - sub1
-      //      zone - sub2
+    if(!housePrice){
+      callback(price);
+      return;
     }
 
-    curves.push(curveListPerCity);
-    actions.push(actionListPerCity);
+    var newMap = {};
+    var curves = [];
+    var actions = [];
+    var data = [];
 
-    // data part
-    var name = feature.properties['C_Name'];
+    var features = taiwanMap.features;
+    var featuresLen = features.length;
 
-    // console.log('name:', name);
-    // if (name ==="臺北市"){
-    //   data.push({ppsf:240, st: "Taiwan", ct: name});
-    // } else {
-    //   data.push({ppsf:80, st: "Taiwan", ct: name});
-    // }
+    glog("total features/city:", featuresLen);
 
-    data.push({ppsf:addPrice(name), st: "Taiwan", ct: name});
-    glog("end city/features");
-  }
+    for (var i = 0; i< featuresLen; i++){
 
-  return {curves:curves, actions:actions, data:data};
+      glog("new city/features");
+
+      // geometry part
+      var curveListPerCity = [];
+      var actionListPerCity =[];
+
+      var feature = features[i];
+      var zones = feature.geometry.coordinates; // 因為一個縣市可能有兩個以上不相鄰的地區
+
+      var zoneLen = zones.length;
+
+      for (var j =0; j< zoneLen; j++){
+
+        // should be a polygon
+        var zone = zones[j];
+        judgeIfMultipleArray(zone, curveListPerCity, actionListPerCity);
+        // 所以  zone -  zone1 - sub1
+        //      zone -  zone1 - sub2
+        // 變成  zone - sub1
+        //      zone - sub2
+      }
+
+      curves.push(curveListPerCity);
+      actions.push(actionListPerCity);
+
+      // data part
+      var name = feature.properties['C_Name'];
+
+      // console.log('name:', name);
+      // if (name ==="臺北市"){
+      //   data.push({ppsf:240, st: "Taiwan", ct: name});
+      // } else {
+      //   data.push({ppsf:80, st: "Taiwan", ct: name});
+      // }
+
+      data.push({ppsf:addPrice(name, housePrice), st: "Taiwan", ct: name});
+      glog("end city/features");
+    }
+
+    var returnData = {curves:curves, actions:actions, data:data};
+    callback(returnData)
+  });
+
+  // return {curves:curves, actions:actions, data:data};
 }
 
-function addPrice(name){
+function addPrice(name, housePrice){
   var len = housePrice.length;
   for (var i=0; i< len; i++){
     if (name === housePrice[i].name){
-      return housePrice[i].price/500;
+      return housePrice[i].price; // /500
     }
   }
 
