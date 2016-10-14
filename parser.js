@@ -45,8 +45,12 @@ function checkAverage(code, average){
   var NumOfCity = cityList.length;
   var allGetAverage = true;
   var findOut = false;
+  console.log("check avg:", NumOfCity);
   for (var i=0; i< NumOfCity; i++){
-    const city = cityList[i];
+    console.log("city i:", i);
+    console.log("list:", cityList);
+    var city = cityList[i]; //!!!!! 每次都一樣???
+    console.log("city.code:"+ city.code+";code:", code);
     if(city.code === code){
       console.log("find out");
       city.price = average;
@@ -120,13 +124,15 @@ function priceFileParser(code){
       if(this.resultB){
         console.log("calc A-B");
         this.calculateAverage();
+      } else {
+        console.log("A ok but B not ok");
       }
     });
 
     console.log("startReadAsync2");
 
     readAyncFun(code, "B", (result)=>{
-      console.log("B:", result);
+      // console.log("B:", result);
       console.log("read file B ok, str.len:", result.length);
       if(result.length>0){
         this.resultB =  this.getTotal(result);
@@ -138,6 +144,8 @@ function priceFileParser(code){
       if(this.resultA){
         console.log("calc B-A");
         this.calculateAverage();
+      } else {
+        console.log("B ok but A not ok");
       }
     });
   }

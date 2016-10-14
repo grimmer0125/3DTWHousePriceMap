@@ -7,8 +7,8 @@ var parser = require('./parser.js');
 
 
 var JSZip = require("jszip");
-var JSZipUtils = require("jszip-utils");
-// var foo = require('./foo.js');
+// var JSZipUtils = require("jszip-utils");
+var fetch = require('node-fetch');
 
 const dataURL = "http://data.moi.gov.tw/MoiOD/System/DownloadFile.aspx?DATA=F0199ED0-184A-40D5-9506-95138F54159A";
 
@@ -23,52 +23,91 @@ var zip =  null;
 
 function downloadAndParse(dataCallback) {
 
-    JSZipUtils.getBinaryContent(dataURL, function(err, data) {
+    fetch(dataURL)
+        .then(function(res) {
+            return res.buffer();
+        }).then(function(buffer) {
+            // fileType(buffer);
 
-        // console.log("try foo1:", foo.grabAppleData());
-        // JSZipUtils.getBinaryContent('https://grimmer.io/test/test.zip', function(err, data) {
-        if (err) {
-            throw err; // or handle err
-        }
+            //byte array
+            zip = new JSZip();
+            zip.loadAsync(buffer)
+            .then(function() {
 
-        zip = new JSZip();
+                console.log('unzip completed!');
 
-        // zip.loadAsync(data, {
-        //     decodeFileName: function (bytes) {
-        //         return iconv.decode(bytes, 'Big5');
-        //     }
-        // });
+                // comment temporarily
+                parser.parseHouseCSV(readEachCSVFile, cityData => {
+                    console.log("houseData:", cityData);
+                    const newData = cityData.map(city=>{
+                        var finalNum = 0;
+                        if(city.price<0){
+                            finalNum ="error";
+                        } else if (city.price ==0) {
+                            finalNum = "沒有交易";
+                        } else {
+                            finalNum = (Math.round(city.price)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                  ",");
+                        }
 
-        //byte array
-        zip.loadAsync(data)
-        .then(function() {
+                        return city.name+":$"+finalNum;
+                    });
+                    console.log("new:", newData);
+                    // newData.splice(0, 0, title);
+                    // storage.save(newData);
 
-            console.log('unzip compvared!');
-
-            // comment temporarily
-            parser.parseHouseCSV(readEachCSVFile, cityData => {
-                console.log("houseData:", cityData);
-                const newData = cityData.map(city=>{
-                    var finalNum = 0;
-                    if(city.price<0){
-                        finalNum ="error";
-                    } else if (city.price ==0) {
-                        finalNum = "沒有交易";
-                    } else {
-                        finalNum = (Math.round(city.price)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
-                              ",");
-                    }
-
-                    return city.name+":$"+finalNum;
+                    dataCallback(newData);
                 });
-                console.log("new:", newData);
-                // newData.splice(0, 0, title);
-                // storage.save(newData);
-
-                dataCallback(newData);
             });
+
         });
-    });
+
+    // JSZipUtils.getBinaryContent(dataURL, function(err, data) {
+    //
+    //     // console.log("try foo1:", foo.grabAppleData());
+    //     // JSZipUtils.getBinaryContent('https://grimmer.io/test/test.zip', function(err, data) {
+    //     if (err) {
+    //         throw err; // or handle err
+    //     }
+    //
+    //
+    //     // zip.loadAsync(data, {
+    //     //     decodeFileName: function (bytes) {
+    //     //         return iconv.decode(bytes, 'Big5');
+    //     //     }
+    //     // });
+    //
+    //     //byte array
+    //     zip = new JSZip();
+    //     zip.loadAsync(data)
+    //     .then(function() {
+    //
+    //         console.log('unzip compvared!');
+    //
+    //         // comment temporarily
+    //         parser.parseHouseCSV(readEachCSVFile, cityData => {
+    //             console.log("houseData:", cityData);
+    //             const newData = cityData.map(city=>{
+    //                 var finalNum = 0;
+    //                 if(city.price<0){
+    //                     finalNum ="error";
+    //                 } else if (city.price ==0) {
+    //                     finalNum = "沒有交易";
+    //                 } else {
+    //                     finalNum = (Math.round(city.price)).toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+    //                           ",");
+    //                 }
+    //
+    //                 return city.name+":$"+finalNum;
+    //             });
+    //             console.log("new:", newData);
+    //             // newData.splice(0, 0, title);
+    //             // storage.save(newData);
+    //
+    //             dataCallback(newData);
+    //         });
+    //     });
+    // });
 }
 
 
@@ -78,18 +117,16 @@ function readEachCSVFile(code, houseType, finishReadFun) {
 
     console.log('try to read:', readfilepath);
 
-    // zip.forEach(function(relativePath, file) {
-    console.log("iterating over", relativePath);
+    console.log("iterating over", readfilepath);
 
     zip.file(readfilepath).async("uint8array").then(function(text) {
         // console.log("unzip:", text);
         var str = iconv.decode(text, 'Big5');
         console.log("total data length:", str.length);
-        console.log("unzip:", str);
-        finishReadFun(data);
+        // console.log("unzip:", str);
+        finishReadFun(str);
     });
 
-    // });
 
     // var data = ''
     // RNFetchBlob.fs.readStream(
