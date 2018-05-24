@@ -1,5 +1,5 @@
 {
-  "name": "map",
+  "name": "3DTWHousePriceMap",
   "version": "1.0.0",
   "description": "",
   "main": "TrackballControls.js",
@@ -14,5 +14,5 @@
     "start": "node ./node_modules/live-server/live-server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "BSD-3-Clause"
 }
